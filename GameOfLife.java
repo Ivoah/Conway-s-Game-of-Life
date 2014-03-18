@@ -12,6 +12,7 @@ public class GameOfLife extends JFrame implements ActionListener {
   private JToggleButton[][] buttons = null;
   private JPanel actionsPanel = null;
   private JButton changeRulesButton = null;
+  private JButton changeSizeButton = null;
   private JButton invertButton = null;
   private JButton clearButton = null;
   private JButton stepButton = null;
@@ -37,24 +38,7 @@ public class GameOfLife extends JFrame implements ActionListener {
     return true;
   }
 
-  public GameOfLife() {
-
-    try {
-      UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-    } catch (ClassNotFoundException e) {
-      System.out.println("Error setting look and feel");
-    } catch (InstantiationException e) {
-      System.out.println("Error setting look and feel");
-    } catch (IllegalAccessException e) {
-      System.out.println("Error setting look and feel");
-    } catch (UnsupportedLookAndFeelException e) {
-      System.out.println("Error setting look and feel");
-    }
-    
-    patt = Pattern.compile("B([0-8]*)/S([0-8]*)");
-    
-    parseRules("B3/S23");
-
+  private void changeSize() {
     while (true) {
       String s = JOptionPane.showInputDialog(this, "How wide do you want the game?", "Size", JOptionPane.QUESTION_MESSAGE);
       
@@ -100,8 +84,6 @@ public class GameOfLife extends JFrame implements ActionListener {
       break;
       
     }
-    
-    stepper = new javax.swing.Timer(25, this);
 
     buttonPanel = new JPanel(new GridLayout(height, width));
 
@@ -116,8 +98,50 @@ public class GameOfLife extends JFrame implements ActionListener {
       }
     }
 
+    remove(buttonPanel);
+    add(buttonPanel, BorderLayout.CENTER);
+  }
+
+  public GameOfLife() {
+
+    try {
+      UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+    } catch (ClassNotFoundException e) {
+      System.out.println("Error setting look and feel");
+    } catch (InstantiationException e) {
+      System.out.println("Error setting look and feel");
+    } catch (IllegalAccessException e) {
+      System.out.println("Error setting look and feel");
+    } catch (UnsupportedLookAndFeelException e) {
+      System.out.println("Error setting look and feel");
+    }
+    
+    patt = Pattern.compile("B([0-8]*)/S([0-8]*)");
+    
+    parseRules("B3/S23");
+
+    changeSize();
+    
+    stepper = new javax.swing.Timer(25, this);
+
+    /*buttonPanel = new JPanel(new GridLayout(height, width));
+
+    buttons = new JToggleButton[height][width];
+
+    for (int r = 0; r < height; r++) {
+      for (int c = 0; c < width; c++) {
+      buttons[r][c] = new JToggleButton();
+      buttons[r][c].setBackground(Color.BLACK);
+      buttons[r][c].addActionListener(this);
+      buttonPanel.add(buttons[r][c]);
+      }
+    }*/
+
     changeRulesButton = new JButton("Change game rules");
     changeRulesButton.addActionListener(this);
+
+    changeSizeButton = new JButton("Change game size");
+    changeSizeButton.addActionListener(this);
 
     invertButton = new JButton("Invert grid");
     invertButton.addActionListener(this);
@@ -133,6 +157,7 @@ public class GameOfLife extends JFrame implements ActionListener {
     
     actionsPanel = new JPanel();
     actionsPanel.add(changeRulesButton);
+    actionsPanel.add(changeSizeButton);
     actionsPanel.add(invertButton);
     actionsPanel.add(clearButton);
     actionsPanel.add(stepButton);
@@ -141,7 +166,7 @@ public class GameOfLife extends JFrame implements ActionListener {
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     
     setTitle("Conway's Game of Life");
-    add(buttonPanel);
+    //add(buttonPanel, BorderLayout.CENTER);
     add(actionsPanel, BorderLayout.SOUTH);
     setSize(width*25, height*25);
     setVisible(true);
@@ -163,6 +188,8 @@ public class GameOfLife extends JFrame implements ActionListener {
       changeRules();
     } else if (e.getSource() == invertButton) {
       invertGrid();
+    } else if (e.getSource() == changeSizeButton) {
+      changeSize();
     }
   }
   
