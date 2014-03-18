@@ -85,6 +85,9 @@ public class GameOfLife extends JFrame implements ActionListener {
       
     }
 
+    if (buttonPanel != null)
+      remove(buttonPanel);
+
     buttonPanel = new JPanel(new GridLayout(height, width));
 
     buttons = new JToggleButton[height][width];
@@ -98,8 +101,8 @@ public class GameOfLife extends JFrame implements ActionListener {
       }
     }
 
-    remove(buttonPanel);
     add(buttonPanel, BorderLayout.CENTER);
+    revalidate();
   }
 
   public GameOfLife() {
