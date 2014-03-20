@@ -6,6 +6,8 @@ import java.util.regex.*;
 
 public class GameOfLife extends JFrame implements ActionListener {
   
+  final String defaultRules = "B3/S23";
+
   private int width = 0;
   private int height = 0;
   private JPanel buttonPanel = null;
@@ -38,22 +40,26 @@ public class GameOfLife extends JFrame implements ActionListener {
     return true;
   }
 
-  private void changeSize() {
+  private boolean changeSize() {
+
+    int w = 0;
+    int h = 0;
+
     while (true) {
       String s = JOptionPane.showInputDialog(this, "How wide do you want the game?", "Size", JOptionPane.QUESTION_MESSAGE);
       
       if (s == null) {
-        System.exit(0);
+        return false;
       }
         
       try {
-        width = Integer.parseInt(s);
+        w = Integer.parseInt(s);
       } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Please enter an integer", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
       
-      if (width <= 1) {
+      if (w <= 1) {
         JOptionPane.showMessageDialog(this, "Please enter an integer larger than 1", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
@@ -66,17 +72,17 @@ public class GameOfLife extends JFrame implements ActionListener {
       String s = JOptionPane.showInputDialog(this, "How tall do you want the game?", "Size", JOptionPane.QUESTION_MESSAGE);
       
       if (s == null) {
-        System.exit(0);
+        return false;
       }
         
       try {
-        height = Integer.parseInt(s);
+        h = Integer.parseInt(s);
       } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Please enter an integer", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
       
-      if (height <= 1) {
+      if (h <= 1) {
         JOptionPane.showMessageDialog(this, "Please enter an integer larger than 1", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
@@ -84,6 +90,9 @@ public class GameOfLife extends JFrame implements ActionListener {
       break;
       
     }
+
+    width = w;
+    height = h;
 
     if (buttonPanel != null)
       remove(buttonPanel);
@@ -103,6 +112,8 @@ public class GameOfLife extends JFrame implements ActionListener {
 
     add(buttonPanel, BorderLayout.CENTER);
     revalidate();
+
+    return true;
   }
 
   public GameOfLife() {
@@ -121,9 +132,10 @@ public class GameOfLife extends JFrame implements ActionListener {
     
     patt = Pattern.compile("B([0-8]*)/S([0-8]*)");
     
-    parseRules("B3/S23");
+    parseRules(defaultRules);
 
-    changeSize();
+    if (!changeSize())
+      System.exit(0);
     
     stepper = new javax.swing.Timer(25, this);
 
@@ -270,7 +282,7 @@ public class GameOfLife extends JFrame implements ActionListener {
 
   private void changeRules() {
     while (true) {
-      String s = JOptionPane.showInputDialog(this, "New game rules:", "Rules", JOptionPane.QUESTION_MESSAGE);
+      String s = JOptionPane.showInputDialog(this, "New game rules (default: \"" + defaultRules + "\"):", "Rules", JOptionPane.QUESTION_MESSAGE);
       if (s == null) {
         break;
       }
