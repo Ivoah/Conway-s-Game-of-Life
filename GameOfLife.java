@@ -139,19 +139,6 @@ public class GameOfLife extends JFrame implements ActionListener {
     
     stepper = new javax.swing.Timer(25, this);
 
-    /*buttonPanel = new JPanel(new GridLayout(height, width));
-
-    buttons = new JToggleButton[height][width];
-
-    for (int r = 0; r < height; r++) {
-      for (int c = 0; c < width; c++) {
-      buttons[r][c] = new JToggleButton();
-      buttons[r][c].setBackground(Color.BLACK);
-      buttons[r][c].addActionListener(this);
-      buttonPanel.add(buttons[r][c]);
-      }
-    }*/
-
     changeRulesButton = new JButton("Change game rules");
     changeRulesButton.addActionListener(this);
 
