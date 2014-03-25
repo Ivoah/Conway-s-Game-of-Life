@@ -120,13 +120,7 @@ public class GameOfLife extends JFrame implements ActionListener {
 
     try {
       UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-    } catch (ClassNotFoundException e) {
-      System.out.println("Error setting look and feel");
-    } catch (InstantiationException e) {
-      System.out.println("Error setting look and feel");
-    } catch (IllegalAccessException e) {
-      System.out.println("Error setting look and feel");
-    } catch (UnsupportedLookAndFeelException e) {
+    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
       System.out.println("Error setting look and feel");
     }
     
