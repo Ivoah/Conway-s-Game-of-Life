@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.regex.*;
 
 public class GameOfLife extends JFrame implements ActionListener {
-  
+
   final String defaultRules = "B3/S23";
 
   private int width = 0;
@@ -20,7 +20,7 @@ public class GameOfLife extends JFrame implements ActionListener {
   private JButton stepButton = null;
   private JToggleButton runButton = null;
   private javax.swing.Timer stepper = null;
-  
+
   private Vector<Integer> B = new Vector<Integer>();
   private Vector<Integer> S = new Vector<Integer>();
   private Pattern patt = null;
@@ -47,48 +47,48 @@ public class GameOfLife extends JFrame implements ActionListener {
 
     while (true) {
       String s = JOptionPane.showInputDialog(this, "How wide do you want the game?", "Size", JOptionPane.QUESTION_MESSAGE);
-      
+
       if (s == null) {
         return false;
       }
-        
+
       try {
         w = Integer.parseInt(s);
       } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Please enter an integer", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
-      
+
       if (w <= 1) {
         JOptionPane.showMessageDialog(this, "Please enter an integer larger than 1", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
-      
+
       break;
-      
+
     }
 
     while (true) {
       String s = JOptionPane.showInputDialog(this, "How tall do you want the game?", "Size", JOptionPane.QUESTION_MESSAGE);
-      
+
       if (s == null) {
         return false;
       }
-        
+
       try {
         h = Integer.parseInt(s);
       } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(this, "Please enter an integer", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
-      
+
       if (h <= 1) {
         JOptionPane.showMessageDialog(this, "Please enter an integer larger than 1", "Invalid input!", JOptionPane.ERROR_MESSAGE);
         continue;
       }
-      
+
       break;
-      
+
     }
 
     width = w;
@@ -123,14 +123,14 @@ public class GameOfLife extends JFrame implements ActionListener {
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
       System.out.println("Error setting look and feel");
     }
-    
+
     patt = Pattern.compile("B([0-8]*)/S([0-8]*)");
-    
+
     parseRules(defaultRules);
 
     if (!changeSize())
       System.exit(0);
-    
+
     stepper = new javax.swing.Timer(25, this);
 
     changeRulesButton = new JButton("Change game rules");
@@ -150,7 +150,7 @@ public class GameOfLife extends JFrame implements ActionListener {
 
     runButton = new JToggleButton("Run");
     runButton.addActionListener(this);
-    
+
     actionsPanel = new JPanel();
     actionsPanel.add(changeRulesButton);
     actionsPanel.add(changeSizeButton);
@@ -160,7 +160,7 @@ public class GameOfLife extends JFrame implements ActionListener {
     actionsPanel.add(runButton);
 
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    
+
     setTitle("Conway's Game of Life");
     //add(buttonPanel, BorderLayout.CENTER);
     add(actionsPanel, BorderLayout.SOUTH);
@@ -168,7 +168,7 @@ public class GameOfLife extends JFrame implements ActionListener {
     setVisible(true);
 
   }
-  
+
   public void actionPerformed(ActionEvent e) {
     if (e.getSource() == clearButton) {
       clearButtons();
@@ -188,7 +188,7 @@ public class GameOfLife extends JFrame implements ActionListener {
       changeSize();
     }
   }
-  
+
   private void clearButtons() {
     for (int r = 0; r < height; r++) {
       for (int c = 0; c < width; c++) {
@@ -232,7 +232,7 @@ public class GameOfLife extends JFrame implements ActionListener {
 
     return n;
   }
-  
+
   private boolean[][] next() {
     boolean[][] nextGrid = new boolean[height][width];
     for (int r = 0; r < height; r++) {
@@ -278,5 +278,5 @@ public class GameOfLife extends JFrame implements ActionListener {
   public static void main(String[] args) {
     GameOfLife GOL = new GameOfLife();
   }
-  
+
 }
